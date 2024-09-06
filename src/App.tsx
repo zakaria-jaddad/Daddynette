@@ -1,24 +1,12 @@
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
+import Header from "./components/Header/Header";
+import Main from "./components/Main/Main";
 
 function App() {
   return (
-    <div>
-      <h1 className="text-3xl font-bold underline">Hello world!</h1>
-
-      <Accordion type="single" collapsible>
-        <AccordionItem value="item-1">
-          <AccordionTrigger>Is it accessible?</AccordionTrigger>
-          <AccordionContent>
-            Yes. It adheres to the WAI-ARIA design pattern.
-          </AccordionContent>
-        </AccordionItem>
-      </Accordion>
-    </div>
+    <>
+      <Header />
+      <Main />
+    </>
   );
 }
 
