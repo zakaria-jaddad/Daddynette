@@ -28,12 +28,7 @@ const Header = () => {
               <DarkThemeIcon fill="black" style="cursor-pointer" />
             </div>
           ) : (
-            <div
-              onClick={() => {
-                setTheme(handleTheme(theme));
-                console.log(theme);
-              }}
-            >
+            <div onClick={() => setTheme(handleTheme(theme))}>
               <LightThemeIcon fill="white" style="cursor-pointer" />
             </div>
           )}
