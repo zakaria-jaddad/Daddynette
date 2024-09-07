@@ -53,7 +53,7 @@ const Main = () => {
 
       {/* main */}
       <main className="flex gap-4 flex-row flex-wrap w-full">
-        <aside className="px-5 lg:w-[300px] w-full mt-[-20px]">
+        <aside className="px-5 lg:w-[200px] w-full mt-[-20px]">
           {days.map((day: Day, index: number) => {
             return (
               <div
@@ -99,14 +99,17 @@ const Main = () => {
                         <input
                           className="hidden"
                           multiple
-                          id="test"
+                          id="fileDropZone"
                           accept="text/html,.c,.h"
                           type="file"
                           name="file"
                         />
-                        <label htmlFor="test" className="flex-1">
+                        <div className="flex-1">
                           {filesList.length === 0 ? (
-                            <div className="p-16 justify-center items-center w-full h-full flex flex-col gap-4 cursor-pointer">
+                            <label
+                              className="p-16 justify-center items-center w-full h-full flex flex-col gap-4 cursor-pointer"
+                              htmlFor="fileDropZone"
+                            >
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 viewBox="0 0 24 24"
@@ -132,13 +135,38 @@ const Main = () => {
                                   Supported File Types: .c .h
                                 </span>
                               </div>
-                            </div>
+                            </label>
                           ) : (
-                            <div className="w-full h-full grid gap-3 grid-cols-6 grid-rows-6 bg-cover">
-                              <FilesList filesList={filesList} />
+                            <div className="w-full h-full grid bg-cover sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-3 gap-6">
+                              <FilesList
+                                filesList={filesList}
+                                setFilesList={setFilesList}
+                              />
+                              <label
+                                className="cursor-pointer rounded p-2 flex justify-center items-center flex-col bg-muted relative"
+                                htmlFor="fileDropZone"
+                              >
+                                {/* icon */}
+                                <div className="mb-2">
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24"
+                                    fill="currentColor"
+                                    aria-hidden="true"
+                                    className="h-10 w-10 fill-current"
+                                  >
+                                    <path
+                                      fillRule="evenodd"
+                                      d="M11.47 2.47a.75.75 0 011.06 0l4.5 4.5a.75.75 0 01-1.06 1.06l-3.22-3.22V16.5a.75.75 0 01-1.5 0V4.81L8.03 8.03a.75.75 0 01-1.06-1.06l4.5-4.5zM3 15.75a.75.75 0 01.75.75v2.25a1.5 1.5 0 001.5 1.5h13.5a1.5 1.5 0 001.5-1.5V16.5a.75.75 0 011.5 0v2.25a3 3 0 01-3 3H5.25a3 3 0 01-3-3V16.5a.75.75 0 01.75-.75z"
+                                      clipRule="evenodd"
+                                    ></path>
+                                  </svg>
+                                </div>
+                                <p className="text-wrap">Add Files</p>
+                              </label>
                             </div>
                           )}
-                        </label>
+                        </div>
                       </div>
                       <p
                         className="mt-2 text-center text-sm text-zinc-500 dark:text-zinc-300"
