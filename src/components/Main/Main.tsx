@@ -1,15 +1,20 @@
 import Landing from "./components/Landing";
-import TreeViewItem from "./components/TreeViewItem";
+import DayItem from "./components/DayItem";
 import FilesList from "./components/FilesList";
-import { days } from "./data/days";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { validateFileType } from "@/lib/utils";
 import { toast } from "sonner";
+import { Day } from "@/app/features/days/daysSlice";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "@/app/store";
+import { choseDay } from "@/app/features/days/daysSlice";
 
 const Main = () => {
+  const dispatch = useDispatch();
   const [dragActive, setDragActive] = useState(false);
   const [filesList, setFilesList] = useState([]);
+  const { days } = useSelector((state: RootState) => state.days);
 
   const handleDrag = (e: DragEvent) => {
     e.preventDefault();
@@ -32,7 +37,6 @@ const Main = () => {
       if (files.length !== validFiles.length) {
         toast.warning("Invalid file type");
       }
-      console.log(validFiles);
       setFilesList(validFiles);
     }
 
@@ -50,8 +54,17 @@ const Main = () => {
       {/* main */}
       <main className="flex gap-4 flex-row flex-wrap w-full">
         <aside className="px-5 lg:w-[300px] w-full mt-[-20px]">
-          {days.map((day: string[], index: number) => {
-            return <TreeViewItem key={index} day={day} index={index} />;
+          {days.map((day: Day, index: number) => {
+            return (
+              <div
+                key={index}
+                onClick={() => {
+                  dispatch(choseDay(day.name));
+                }}
+              >
+                <DayItem day={day} index={index} />
+              </div>
+            );
           })}
         </aside>
 
