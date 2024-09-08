@@ -42,17 +42,12 @@ const Main = () => {
         return [...prevFilesList, ...validFiles];
       });
     }
-
-    // .... file uploading
-
-    // end
     setDragActive(false);
   };
 
   // handleChange
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
-
     // at least one file has been selevted
     if (e.target.files && e.target.files[0]) {
       const files = Array.from(e.target.files);
@@ -61,9 +56,7 @@ const Main = () => {
           validateFileType(file) &&
           validateFileName({ file: file, files: filesList }),
       );
-      console.log(validFiles);
       if (files.length !== validFiles.length) toast.warning("Invalid file");
-
       setFilesList((prevFilesList: File[]) => {
         const newState = [...prevFilesList, ...validFiles];
         return newState;
@@ -164,7 +157,7 @@ const Main = () => {
                               </div>
                             </label>
                           ) : (
-                            <div className="w-full h-full grid bg-cover sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-3 gap-6">
+                            <div className="w-full h-full grid bg-cover sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 gap-6">
                               <FilesList
                                 filesList={filesList}
                                 setFilesList={setFilesList}
@@ -201,8 +194,20 @@ const Main = () => {
                       >
                         Don't be Dumb and upload other files. Such a moran.
                       </p>
-                      <div className="">
-                        <Button className="w-full">Start Blending</Button>
+                      <div className="flex flex-col sm:flex-row w-full gap-3">
+                        <div className="flex-1">
+                          <Button
+                            className="w-full"
+                            onClick={() => {
+                              setFilesList([]);
+                            }}
+                          >
+                            Cancel
+                          </Button>
+                        </div>
+                        <div className="flex-1">
+                          <Button className="w-full">Start Blending</Button>
+                        </div>
                       </div>
                     </div>
                   </form>
