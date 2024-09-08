@@ -2,8 +2,9 @@ import Landing from "./components/Landing";
 import DayItem from "./components/DayItem";
 import FilesList from "./components/FilesList";
 import { Button } from "@/components/ui/button";
-import { ChangeEvent, SetStateAction, useEffect, useState } from "react";
-import { validateFileType } from "@/lib/utils";
+import { ChangeEvent, useEffect, useState } from "react";
+import { validateFileType } from "@/lib/validateFileType";
+import { validateFileName } from "@/lib/validateFileName";
 import { toast } from "sonner";
 import { Day } from "@/app/features/days/daysSlice";
 import { useSelector, useDispatch } from "react-redux";
@@ -58,11 +59,13 @@ const Main = () => {
     // at least one file has been selevted
     if (e.target.files && e.target.files[0]) {
       const files = Array.from(e.target.files);
-      const validFiles = files.filter((file) => validateFileType(file));
-      // all files accepted if files.length === validFiles.length
-      if (files.length !== validFiles.length) {
-        toast.warning("Invalid file type");
-      }
+      const validFiles = files.filter(
+        (file) =>
+          validateFileType(file) &&
+          validateFileName({ file: file, files: files }),
+      );
+      if (files.length !== validFiles.length) toast.warning("Invalid file");
+
       setFilesList((prevFilesList: File[]) => {
         const newState = [...prevFilesList, ...validFiles];
         return newState;
