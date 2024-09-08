@@ -36,11 +36,12 @@ const Main = () => {
     // validate file type
     if (e.dataTransfer?.files && e.dataTransfer.files[0]) {
       const files = Array.from(e.dataTransfer.files);
-      const validFiles = files.filter((file) => validateFileType(file));
-      // all files accepted if files.length === validFiles.length
-      if (files.length !== validFiles.length) {
-        toast.warning("Invalid file type");
-      }
+      const validFiles = files.filter(
+        (file) =>
+          validateFileType(file) &&
+          validateFileName({ file: file, files: files }),
+      );
+      if (files.length !== validFiles.length) toast.warning("Invalid file");
       setFilesList((prevFilesList: File[]) => {
         return [...prevFilesList, ...validFiles];
       });
