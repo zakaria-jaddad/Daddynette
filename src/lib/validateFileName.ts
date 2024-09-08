@@ -11,8 +11,7 @@ export function validateFileName({
   files.forEach((x) => {
     if (x.name === file.name) fileCounter++;
   });
-  if (fileCounter === 1) {
-    return false;
-  }
-  return true;
+
+  if (fileCounter === 0) return true;
+  return false;
 }

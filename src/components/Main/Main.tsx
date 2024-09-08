@@ -2,7 +2,7 @@ import Landing from "./components/Landing";
 import DayItem from "./components/DayItem";
 import FilesList from "./components/FilesList";
 import { Button } from "@/components/ui/button";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { validateFileType } from "@/lib/validateFileType";
 import { validateFileName } from "@/lib/validateFileName";
 import { toast } from "sonner";
@@ -14,12 +14,8 @@ import { choseDay } from "@/app/features/days/daysSlice";
 const Main = () => {
   const dispatch = useDispatch();
   const [dragActive, setDragActive] = useState(false);
-  const [filesList, setFilesList] = useState([]);
+  const [filesList, setFilesList] = useState<File[]>([]);
   const { days } = useSelector((state: RootState) => state.days);
-
-  useEffect(() => {
-    setFilesList([]);
-  }, [days]);
 
   // handleDrag
   const handleDrag = (e: DragEvent) => {
@@ -39,7 +35,7 @@ const Main = () => {
       const validFiles = files.filter(
         (file) =>
           validateFileType(file) &&
-          validateFileName({ file: file, files: files }),
+          validateFileName({ file: file, files: filesList }),
       );
       if (files.length !== validFiles.length) toast.warning("Invalid file");
       setFilesList((prevFilesList: File[]) => {
@@ -63,8 +59,9 @@ const Main = () => {
       const validFiles = files.filter(
         (file) =>
           validateFileType(file) &&
-          validateFileName({ file: file, files: files }),
+          validateFileName({ file: file, files: filesList }),
       );
+      console.log(validFiles);
       if (files.length !== validFiles.length) toast.warning("Invalid file");
 
       setFilesList((prevFilesList: File[]) => {
