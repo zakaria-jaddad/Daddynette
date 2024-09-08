@@ -2,7 +2,7 @@ import Landing from "./components/Landing";
 import DayItem from "./components/DayItem";
 import FilesList from "./components/FilesList";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { ChangeEvent, SetStateAction, useEffect, useState } from "react";
 import { validateFileType } from "@/lib/utils";
 import { toast } from "sonner";
 import { Day } from "@/app/features/days/daysSlice";
@@ -16,6 +16,11 @@ const Main = () => {
   const [filesList, setFilesList] = useState([]);
   const { days } = useSelector((state: RootState) => state.days);
 
+  useEffect(() => {
+    setFilesList([]);
+  }, [days]);
+
+  // handleDrag
   const handleDrag = (e: DragEvent) => {
     e.preventDefault();
     e.stopPropagation();
@@ -27,23 +32,42 @@ const Main = () => {
   const handleDrop = (e: DragEvent) => {
     e.preventDefault();
     e.stopPropagation();
-
     // validate file type
     if (e.dataTransfer?.files && e.dataTransfer.files[0]) {
       const files = Array.from(e.dataTransfer.files);
       const validFiles = files.filter((file) => validateFileType(file));
-
       // all files accepted if files.length === validFiles.length
       if (files.length !== validFiles.length) {
         toast.warning("Invalid file type");
       }
-      setFilesList(validFiles);
+      setFilesList((prevFilesList: File[]) => {
+        return [...prevFilesList, ...validFiles];
+      });
     }
 
     // .... file uploading
 
     // end
     setDragActive(false);
+  };
+
+  // handleChange
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+
+    // at least one file has been selevted
+    if (e.target.files && e.target.files[0]) {
+      const files = Array.from(e.target.files);
+      const validFiles = files.filter((file) => validateFileType(file));
+      // all files accepted if files.length === validFiles.length
+      if (files.length !== validFiles.length) {
+        toast.warning("Invalid file type");
+      }
+      setFilesList((prevFilesList: File[]) => {
+        const newState = [...prevFilesList, ...validFiles];
+        return newState;
+      });
+    }
   };
 
   return (
@@ -97,18 +121,20 @@ const Main = () => {
                         } `}
                       >
                         <input
+                          onChange={handleChange}
                           className="hidden"
                           multiple
-                          id="fileDropZone"
-                          accept="text/html,.c,.h"
+                          id="file-input"
+                          accept=".c,.h"
                           type="file"
                           name="file"
+                          value={[]}
                         />
                         <div className="flex-1">
                           {filesList.length === 0 ? (
                             <label
                               className="p-16 justify-center items-center w-full h-full flex flex-col gap-4 cursor-pointer"
-                              htmlFor="fileDropZone"
+                              htmlFor="file-input"
                             >
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -144,7 +170,7 @@ const Main = () => {
                               />
                               <label
                                 className="cursor-pointer rounded p-2 flex justify-center items-center flex-col bg-muted relative"
-                                htmlFor="fileDropZone"
+                                htmlFor="file-input"
                               >
                                 {/* icon */}
                                 <div className="mb-2">

@@ -1,7 +1,9 @@
 import FileIcon from "@/components/ui/FileIcon";
+import { Dispatch, SetStateAction } from "react";
 
 type FileListProps = {
   filesList: File[];
+  setFilesList: Dispatch<SetStateAction<never[]>>;
 };
 
 const FilesList: React.FC<FileListProps> = ({ filesList, setFilesList }) => {
