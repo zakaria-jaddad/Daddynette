@@ -11,11 +11,37 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/app/store";
 import { choseDay } from "@/app/features/days/daysSlice";
 
+const validDay = (days: Day[]) => {
+  const selectedDaysList = days.filter((day) => day.isOpened === true);
+  if (selectedDaysList.length === 1) return true;
+  return false;
+};
+
 const Main = () => {
   const dispatch = useDispatch();
   const [dragActive, setDragActive] = useState(false);
   const [filesList, setFilesList] = useState<File[]>([]);
   const { days } = useSelector((state: RootState) => state.days);
+
+  // handleFormSubmit
+  /*
+   *
+   * handleFormSubmit:
+   * - checks if there are files in the list.
+   * - checks if a day got selected.
+   *
+   */
+  const handleFormSubmit = (e: Event) => {
+    e.preventDefault();
+
+    if (filesList.length === 0) toast.warning("Add files");
+    else if (!validDay(days)) toast.warning("Select a day");
+    else {
+      console.log("Request to server sent...");
+      /////
+      console.log("got a response.");
+    }
+  };
 
   // handleDrag
   const handleDrag = (e: DragEvent) => {
@@ -70,11 +96,12 @@ const Main = () => {
       <Landing />
 
       {/* main */}
-      <main className="flex gap-4 flex-row flex-wrap w-full">
-        <aside className="px-5 lg:w-[200px] w-full mt-[-20px]">
+      <main className="flex gap-5 flex-row flex-wrap w-full pt-8">
+        <aside className="lg:pl-5 lg:w-[200px] w-full mt-[-20px] flex justify-center gap-1 flex-row flex-wrap lg:block">
           {days.map((day: Day, index: number) => {
             return (
               <div
+                className="min-w-20"
                 key={index}
                 onClick={() => {
                   dispatch(choseDay(day.name));
@@ -103,7 +130,7 @@ const Main = () => {
                     onDragLeave={handleDrag}
                     onDragOver={handleDrag}
                     onDrop={handleDrop}
-                    onSubmit={(e) => e.preventDefault()}
+                    onSubmit={handleFormSubmit}
                   >
                     <div className="h-full flex flex-col flex-wrap gap-2">
                       <div
@@ -197,6 +224,7 @@ const Main = () => {
                       <div className="flex flex-col sm:flex-row w-full gap-3">
                         <div className="flex-1">
                           <Button
+                            type="reset"
                             className="w-full"
                             onClick={() => {
                               setFilesList([]);
@@ -206,7 +234,9 @@ const Main = () => {
                           </Button>
                         </div>
                         <div className="flex-1">
-                          <Button className="w-full">Start Blending</Button>
+                          <Button className="w-full" type="submit">
+                            Start Blending
+                          </Button>
                         </div>
                       </div>
                     </div>

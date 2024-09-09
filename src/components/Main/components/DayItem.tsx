@@ -16,10 +16,10 @@ const DayItem: React.FC<TreeViewItemProps> = ({ day, index }) => {
       <AccordionItem
         value={`${index}`}
         key={index}
-        className="border-none px-2"
+        className="w-full border-none px-2"
       >
         <AccordionTrigger
-          className={`${day.isOpened ? "pl-3 bg-muted text-violet-600" : ""} pr-1 hover:pl-3 mb-1 rounded-lg hover:bg-muted hover:text-violet-600 hover:no-underline transition-[padding] duration-150 font-semibold`}
+          className={`${day.isOpened ? "lg:pl-3 bg-muted text-violet-600" : ""} lg:hover:pl-3 lg:block flex justify-center items-center mb-1 rounded-lg hover:bg-muted hover:text-violet-600 hover:no-underline transition-[padding] duration-150 font-semibold`}
         >
           {day.name}
         </AccordionTrigger>
