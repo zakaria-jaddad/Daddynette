@@ -10,6 +10,7 @@ import { Day } from "@/app/features/days/daysSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/app/store";
 import { choseDay } from "@/app/features/days/daysSlice";
+import fileApi from "@/api/fileApi/root";
 
 const validDay = (days: Day[]) => {
   const selectedDaysList = days.filter((day) => day.isOpened === true);
@@ -31,15 +32,16 @@ const Main = () => {
    * - checks if a day got selected.
    *
    */
-  const handleFormSubmit = (e: Event) => {
+  const handleFormSubmit = async (e: Event) => {
     e.preventDefault();
 
     if (filesList.length === 0) toast.warning("Add files");
     else if (!validDay(days)) toast.warning("Select a day");
     else {
+      const day = days.filter((day) => day.isOpened === true);
       console.log("Request to server sent...");
-      /////
-      console.log("got a response.");
+      const data = await fileApi.sendFilesRequest({ day, filesList });
+      console.log("got a response.", data);
     }
   };
 
