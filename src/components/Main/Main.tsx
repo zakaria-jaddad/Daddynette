@@ -99,7 +99,7 @@ const Main = () => {
 
       {/* main */}
       <main className="flex gap-5 flex-row flex-wrap w-full pt-8">
-        <aside className="lg:pl-5 lg:w-[200px] w-full mt-[-20px] flex justify-center gap-1 flex-row flex-wrap lg:block">
+        <aside className="lg:pl-5 lg:w-[150px] w-full mt-[-20px] flex justify-center gap-1 flex-row flex-wrap lg:block">
           {days.map((day: Day, index: number) => {
             return (
               <div

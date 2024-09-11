@@ -19,7 +19,7 @@ const DayItem: React.FC<TreeViewItemProps> = ({ day, index }) => {
         className="w-full border-none px-2"
       >
         <AccordionTrigger
-          className={`${day.isOpened ? "lg:pl-3 bg-muted text-violet-600" : ""} lg:hover:pl-3 lg:block flex justify-center items-center mb-1 rounded-lg hover:bg-muted hover:text-violet-600 hover:no-underline transition-[padding] duration-150 font-semibold`}
+          className={`${day.isOpened ? "lg:pl-3 bg-muted text-violet-600" : ""} lg:hover:pl-3 block mb-1 lg:text-left text-center rounded-lg hover:bg-muted hover:text-violet-600 hover:no-underline transition-[padding] duration-150 font-semibold`}
         >
           {day.name}
         </AccordionTrigger>
