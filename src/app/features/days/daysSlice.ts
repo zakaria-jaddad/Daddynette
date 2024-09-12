@@ -1,6 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import { Day } from "../theme/themeSlice";
+
+export interface Day {
+  name: string;
+  isOpened: boolean;
+  exercises: string[];
+}
 
 export interface DaysState {
   days: Day[];
