@@ -99,7 +99,7 @@ const Main = () => {
 
       {/* main */}
       <main className="flex gap-5 flex-row flex-wrap w-full pt-8">
-        <aside className="lg:pl-5 lg:w-[150px] w-full mt-[-20px] flex justify-center gap-1 flex-row flex-wrap lg:block">
+        <aside className="lg:pl-5 lg:w-[150px] w-full flex justify-center gap-1 flex-row flex-wrap lg:block">
           {days.map((day: Day, index: number) => {
             return (
               <div
@@ -153,7 +153,7 @@ const Main = () => {
                           name="file"
                           value={[]}
                         />
-                        <div className="flex-1">
+                        <div className="flex-1 min-h-[360px]">
                           {filesList.length === 0 ? (
                             <label
                               className="p-16 justify-center items-center w-full h-full flex flex-col gap-4 cursor-pointer"
@@ -186,7 +186,7 @@ const Main = () => {
                               </div>
                             </label>
                           ) : (
-                            <div className="w-full h-full grid bg-cover sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                            <div className="w-full h-full grid bg-cover sm:grid-cols-3 md:grid-cols-3 md:grid-rows-3 lg:grid-cols-3 gap-6">
                               <FilesList
                                 filesList={filesList}
                                 setFilesList={setFilesList}
@@ -251,8 +251,8 @@ const Main = () => {
           {/* End Input */}
 
           {/* Start Output*/}
-          <div className="h-full w-full md:w-1/3 lg:w-1/3 mx-[30px] md:mx-0">
-            <div className="h-full">
+          <div className="md:h-full w-full md:w-1/3 lg:w-1/3 mx-[30px] md:mx-0">
+            <div className="lg:h-full h-[600px]">
               <div className="h-full">
                 <div className="flex flex-col h-full rounded-lg border border-zinc-200 bg-white text-zinc-950 shadow-sm dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-50">
                   <div className="flex flex-col space-y-1.5 p-6">
