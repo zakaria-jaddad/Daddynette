@@ -115,7 +115,7 @@ const Main = () => {
           })}
         </aside>
 
-        <div className="flex flex-wrap gap-4 flex-1">
+        <div className="md:h-full h-[800px] flex flex-wrap gap-4 flex-1">
           {/* Start Input */}
           <div className="h-full flex-1 mx-[30px] md:mx-0">
             <div className="h-full">
