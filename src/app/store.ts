@@ -1,9 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import daysReducer from "./features/days/daysSlice";
+import themeReducer from "./features/theme/themeSlice";
 
 export const store = configureStore({
   reducer: {
     days: daysReducer,
+    theme: themeReducer,
   },
 });
 

@@ -1,19 +1,17 @@
 import { Button } from "@/components/ui/button";
 import DarkThemeIcon from "../ui/darkthemeicon";
 import LightThemeIcon from "../ui/lightthemeicon";
-import { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "@/app/store";
+import { setTheme } from "@/app/features/theme/themeSlice";
 
 const Header = () => {
-  const [theme, setTheme] = useState("light");
+  const dispatch = useDispatch();
+  const { theme } = useSelector((state: RootState) => state.theme);
 
   const handleTheme = (currentTheme: string): string => {
     return currentTheme === "light" ? "dark" : "light";
   };
-
-  useEffect(() => {
-    if (theme === "dark") document.documentElement.classList.add("dark");
-    else document.documentElement.classList.remove("dark");
-  }, [theme]);
 
   return (
     <header className="h-[52px] flex items-center justify-between pt-1 px-10 border-border border-b">
@@ -24,11 +22,11 @@ const Header = () => {
       <ul className="flex items-center gap-3">
         <li>
           {theme === "light" ? (
-            <div onClick={() => setTheme(handleTheme(theme))}>
+            <div onClick={() => dispatch(setTheme(handleTheme(theme)))}>
               <DarkThemeIcon fill="black" style="cursor-pointer" />
             </div>
           ) : (
-            <div onClick={() => setTheme(handleTheme(theme))}>
+            <div onClick={() => dispatch(setTheme(handleTheme(theme)))}>
               <LightThemeIcon fill="white" style="cursor-pointer" />
             </div>
           )}
