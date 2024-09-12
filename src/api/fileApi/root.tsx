@@ -1,14 +1,39 @@
 import { Day } from "@/app/features/days/daysSlice";
-const SUCCESS = { status: true, data: {}, message: "success" };
-const FAIL = { status: false, data: {}, message: "fail" };
+
+interface Data {
+  dayname: string;
+  exercises: string[];
+  fileTests: {};
+}
+
+interface ResponseContent {
+  Status: boolean;
+  Dayname: string;
+  Exercises: string[];
+  FilesTests: {};
+  Message: string;
+}
+
+interface FormattedResponseContent {
+  status: boolean;
+  data: Data | undefined;
+  message: string | undefined;
+}
 
 interface FileApi {
   url: string;
+  formatResponse: (data: ResponseContent) => FormattedResponseContent;
   sendFilesRequest: (argc: {
     day: Day[];
     filesList: File[];
-  }) => Promise<{ status: boolean; data: {}; message: string }>;
+  }) => Promise<FormattedResponseContent>;
 }
+
+const FAIL: FormattedResponseContent = {
+  status: false,
+  data: undefined,
+  message: "Something happened",
+};
 
 const setFilesFormData = ({
   day,
@@ -27,6 +52,18 @@ const setFilesFormData = ({
 
 const fileApi: FileApi = {
   url: "http://localhost:8090/",
+  formatResponse: (data) => {
+    return {
+      status: data.Status,
+      data: {
+        dayname: data.Dayname,
+        exercises: data.Exercises,
+        fileTests: data.FilesTests,
+      },
+      message: data.Message,
+    };
+  },
+
   sendFilesRequest: async (argc: { day: Day[]; filesList: File[] }) => {
     const url = fileApi.url + "test";
     try {
@@ -36,7 +73,8 @@ const fileApi: FileApi = {
       });
       if (!res.ok) return FAIL;
       const data = await res.json();
-      return { ...SUCCESS, data };
+      console.log("this is real data", data);
+      return fileApi.formatResponse(data);
     } catch {
       return FAIL;
     }
