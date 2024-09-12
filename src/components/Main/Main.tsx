@@ -1,6 +1,7 @@
 import Landing from "./components/Landing";
 import DayItem from "./components/DayItem";
 import FilesList from "./components/FilesList";
+import fileApi from "@/api/fileApi/root";
 import { Button } from "@/components/ui/button";
 import { ChangeEvent, useState } from "react";
 import { validateFileType } from "@/lib/validateFileType";
@@ -10,7 +11,7 @@ import { Day } from "@/app/features/days/daysSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/app/store";
 import { choseDay } from "@/app/features/days/daysSlice";
-import fileApi from "@/api/fileApi/root";
+import LoadingSpinner from "../ui/loadingspinner";
 
 const validDay = (days: Day[]) => {
   const selectedDaysList = days.filter((day) => day.isOpened === true);
@@ -22,15 +23,13 @@ const Main = () => {
   const dispatch = useDispatch();
   const [dragActive, setDragActive] = useState(false);
   const [filesList, setFilesList] = useState<File[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
   const { days } = useSelector((state: RootState) => state.days);
 
-  // handleFormSubmit
   /*
-   *
    * handleFormSubmit:
    * - checks if there are files in the list.
    * - checks if a day got selected.
-   *
    */
   const handleFormSubmit = async (e: Event) => {
     e.preventDefault();
@@ -39,8 +38,9 @@ const Main = () => {
     else if (!validDay(days)) toast.warning("Select a day");
     else {
       const day = days.filter((day) => day.isOpened === true);
-      console.log("Request to server sent...");
+      setIsLoading(true);
       const data = await fileApi.sendFilesRequest({ day, filesList });
+      setIsLoading(false);
       console.log("got a response.", data);
     }
   };
@@ -230,6 +230,7 @@ const Main = () => {
                             className="w-full"
                             onClick={() => {
                               setFilesList([]);
+                              setIsLoading(false);
                             }}
                           >
                             Cancel
@@ -250,7 +251,7 @@ const Main = () => {
           {/* End Input */}
 
           {/* Start Output*/}
-          <div className="h-full w-full md:w-1/4 mx-[30px] md:mx-0">
+          <div className="h-full w-full md:w-1/3 lg:w-1/3 mx-[30px] md:mx-0">
             <div className="h-full">
               <div className="h-full">
                 <div className="flex flex-col h-full rounded-lg border border-zinc-200 bg-white text-zinc-950 shadow-sm dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-50">
@@ -260,7 +261,9 @@ const Main = () => {
                     </h3>
                   </div>
                   <div className="p-6 pt-0 flex-1">
-                    <div className="h-full flex flex-col flex-wrap gap-2"></div>
+                    <div className="h-full w-full flex flex-col flex-wrap justify-center items-center gap-2">
+                      {isLoading ? <LoadingSpinner className="" /> : null}
+                    </div>
                   </div>
                 </div>
               </div>
