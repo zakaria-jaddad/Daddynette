@@ -1,5 +1,5 @@
-import FileIcon from "@/components/ui/FileIcon";
 import { Dispatch, SetStateAction } from "react";
+import FileIcon from "@/components/ui/FileIcon";
 
 type FileListProps = {
   filesList: File[];

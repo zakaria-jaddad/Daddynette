@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
-import DarkThemeIcon from "../ui/DarkThemeIcon";
-import LightThemeIcon from "../ui/LighThemeIcon";
+import DarkThemeIcon from "../ui/darkthemeicon";
+import LightThemeIcon from "../ui/lightthemeicon";
 import { useEffect, useState } from "react";
 
 const Header = () => {
