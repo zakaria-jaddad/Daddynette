@@ -147,7 +147,7 @@ const Main = () => {
                     </h3>
                   </div>
                   <form
-                    className="px-6 md:pb-0 flex-1 h-full"
+                    className="p-6 flex-1 h-full"
                     onDragEnter={handleDrag}
                     onDragLeave={handleDrag}
                     onDragOver={handleDrag}
@@ -173,7 +173,7 @@ const Main = () => {
                           name="file"
                           value={[]}
                         />
-                        <div className="flex-1 max-h-[490px]">
+                        <div className="flex-1 h-full">
                           {filesList.length === 0 ? (
                             <label
                               className="p-16 justify-center items-center w-full h-full flex flex-col gap-4 cursor-pointer"
