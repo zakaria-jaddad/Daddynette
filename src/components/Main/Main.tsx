@@ -135,7 +135,7 @@ const Main = () => {
           })}
         </aside>
 
-        <div className="h-full flex flex-wrap gap-4 flex-1">
+        <div className="min-h-full flex flex-wrap gap-4 flex-1">
           {/* Start Input */}
           <div className="h-full flex-1 mx-[30px] md:mx-0">
             <div className="h-full">
@@ -147,7 +147,7 @@ const Main = () => {
                     </h3>
                   </div>
                   <form
-                    className="p-6 pt-0 flex-1"
+                    className="px-6 md:pb-0 flex-1 h-full"
                     onDragEnter={handleDrag}
                     onDragLeave={handleDrag}
                     onDragOver={handleDrag}
@@ -173,7 +173,7 @@ const Main = () => {
                           name="file"
                           value={[]}
                         />
-                        <div className="flex-1 min-h-[360px]">
+                        <div className="flex-1 max-h-[490px]">
                           {filesList.length === 0 ? (
                             <label
                               className="p-16 justify-center items-center w-full h-full flex flex-col gap-4 cursor-pointer"
@@ -285,8 +285,7 @@ const Main = () => {
                       <div className="h-full w-full flex flex-col flex-wrap justify-center items-center gap-2">
                         <LoadingSpinner className="" />
                       </div>
-                    ) : null}
-                    {responseStatus ? (
+                    ) : responseStatus ? (
                       <div className="border rounded border-border p-4">
                         {responseData.exercises.map((x) => (
                           <Accordion key={x} type="single" collapsible>

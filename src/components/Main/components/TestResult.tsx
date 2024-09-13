@@ -29,26 +29,40 @@ const getTestColor = (status: string): string => {
 const TestResult = ({ exercise, fileTests }: TestResultProps) => {
   return (
     <AccordionItem className="w-full border-none px-0" value={exercise}>
-      <AccordionTrigger
-        className={cn("py-3 text-left", getTestColor(fileTests.status))}
-      >
+      <AccordionTrigger className={cn("py-3 text-left")}>
         <Drawer>
-          <DrawerTrigger className="text-left">
+          <DrawerTrigger
+            className={cn("text-left", getTestColor(fileTests.status))}
+          >
             {exercise.split(".c")[0]}: {fileTests.status}
           </DrawerTrigger>
           <DrawerContent>
             <DrawerHeader className="mx-auto w-full max-w-sm gap-4 text-left pb-0">
-              <DrawerTitle>{exercise.split(".c")[0]} tests</DrawerTitle>
+              <DrawerTitle className="font-semibold">
+                {exercise.split(".c")[0]} tests: {fileTests.status}
+              </DrawerTitle>
               <DrawerDescription>
                 {fileTests.result.length != 0
                   ? fileTests.result.split("\n").map((x) => {
-                      return <div key={x}>{x}</div>;
+                      return (
+                        <div
+                          className={cn(
+                            "py-2 text-[16px] font-semibold",
+                            getTestColor(fileTests.status),
+                          )}
+                          key={x}
+                        >
+                          {x}
+                        </div>
+                      );
                     })
-                  : "Nothing turned in"}
+                  : fileTests.status}
               </DrawerDescription>
             </DrawerHeader>
             <DrawerFooter className="mx-auto w-full max-w-sm">
-              <Button>Cancel</Button>
+              <DrawerClose>
+                <Button className="w-full">Cancel</Button>
+              </DrawerClose>
             </DrawerFooter>
           </DrawerContent>
         </Drawer>
