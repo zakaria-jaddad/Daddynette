@@ -1,7 +1,9 @@
 import Landing from "./components/Landing";
 import DayItem from "./components/DayItem";
 import FilesList from "./components/FilesList";
+import LoadingSpinner from "../ui/loadingspinner";
 import fileApi from "@/api/fileApi/root";
+import TestResult from "./components/TestResult";
 import { Button } from "@/components/ui/button";
 import { ChangeEvent, useState } from "react";
 import { validateFileType } from "@/lib/validateFileType";
@@ -11,7 +13,8 @@ import { Day } from "@/app/features/days/daysSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/app/store";
 import { choseDay } from "@/app/features/days/daysSlice";
-import LoadingSpinner from "../ui/loadingspinner";
+import { Data } from "@/api/fileApi/root";
+import { Accordion } from "@radix-ui/react-accordion";
 
 const validDay = (days: Day[]) => {
   const selectedDaysList = days.filter((day) => day.isOpened === true);
@@ -24,6 +27,10 @@ const Main = () => {
   const [dragActive, setDragActive] = useState(false);
   const [filesList, setFilesList] = useState<File[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+
+  const [responseData, setResponseData] = useState<Data>({});
+  const [responseStatus, setResponseStatus] = useState(false);
+
   const { days } = useSelector((state: RootState) => state.days);
 
   /*
@@ -34,15 +41,28 @@ const Main = () => {
   const handleFormSubmit = async (e: Event) => {
     e.preventDefault();
 
-    if (filesList.length === 0) toast.warning("Add files");
-    else if (!validDay(days)) toast.warning("Select a day");
-    else {
-      const day = days.filter((day) => day.isOpened === true);
-      setIsLoading(true);
-      const data = await fileApi.sendFilesRequest({ day, filesList });
-      setIsLoading(false);
-      console.log("got a response.", data);
+    if (filesList.length === 0) {
+      toast.warning("Add files");
+      return;
     }
+    if (!validDay(days)) {
+      toast.warning("Select a day");
+      return;
+    }
+    const day = days.filter((day) => day.isOpened === true);
+    setIsLoading(true);
+    const { status, data, message } = await fileApi.sendFilesRequest({
+      day,
+      filesList,
+    });
+    if (!status) {
+      toast.warning(message);
+      setIsLoading(false);
+      return;
+    }
+    setResponseStatus(true);
+    setResponseData(data);
+    setIsLoading(false);
   };
 
   // handleDrag
@@ -115,7 +135,7 @@ const Main = () => {
           })}
         </aside>
 
-        <div className="md:h-full h-[800px] flex flex-wrap gap-4 flex-1">
+        <div className="h-full flex flex-wrap gap-4 flex-1">
           {/* Start Input */}
           <div className="h-full flex-1 mx-[30px] md:mx-0">
             <div className="h-full">
@@ -261,9 +281,23 @@ const Main = () => {
                     </h3>
                   </div>
                   <div className="p-6 pt-0 flex-1">
-                    <div className="h-full w-full flex flex-col flex-wrap justify-center items-center gap-2">
-                      {isLoading ? <LoadingSpinner className="" /> : null}
-                    </div>
+                    {isLoading ? (
+                      <div className="h-full w-full flex flex-col flex-wrap justify-center items-center gap-2">
+                        <LoadingSpinner className="" />
+                      </div>
+                    ) : null}
+                    {responseStatus ? (
+                      <div className="border rounded border-border p-4">
+                        {responseData.exercises.map((x) => (
+                          <Accordion key={x} type="single" collapsible>
+                            <TestResult
+                              exercise={x}
+                              fileTests={responseData.fileTests[x]}
+                            />
+                          </Accordion>
+                        ))}
+                      </div>
+                    ) : null}
                   </div>
                 </div>
               </div>
