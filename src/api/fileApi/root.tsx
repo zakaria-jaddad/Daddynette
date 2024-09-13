@@ -1,16 +1,26 @@
 import { Day } from "@/app/features/days/daysSlice";
 
-interface Data {
+export interface Data {
   dayname: string;
   exercises: string[];
-  fileTests: {};
+  fileTests: {
+    [key: string]: {
+      result: string;
+      status: string;
+    };
+  };
 }
 
 interface ResponseContent {
   Status: boolean;
   Dayname: string;
   Exercises: string[];
-  FilesTests: {};
+  FilesTests: {
+    [key: string]: {
+      result: string;
+      status: string;
+    };
+  };
   Message: string;
 }
 
@@ -73,7 +83,6 @@ const fileApi: FileApi = {
       });
       if (!res.ok) return FAIL;
       const data = await res.json();
-      console.log("this is real data", data);
       return fileApi.formatResponse(data);
     } catch {
       return FAIL;
