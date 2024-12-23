@@ -36,7 +36,7 @@ const Main = () => {
   /*
    * handleFormSubmit:
    * - checks if there are files in the list.
-   * - checks if a day got selected.
+   * - checks if day is selected selected.
    */
   const handleFormSubmit = async (e: Event) => {
     e.preventDefault();
@@ -119,7 +119,7 @@ const Main = () => {
 
       {/* main */}
       <main className="flex gap-5 flex-row flex-wrap w-full pt-8">
-        <aside className="lg:pl-5 lg:w-[150px] w-full flex justify-center gap-1 flex-row flex-wrap lg:block">
+        <aside className="lg:w-[20%] w-full flex justify-center gap-1 flex-row flex-wrap lg:block">
           {days.map((day: Day, index: number) => {
             return (
               <div
@@ -206,7 +206,7 @@ const Main = () => {
                               </div>
                             </label>
                           ) : (
-                            <div className="w-full h-full grid bg-cover sm:grid-cols-3 md:grid-cols-3 md:grid-rows-3 lg:grid-cols-3 gap-6">
+                            <div className="w-full h-full grid bg-cover sm:grid-cols-3 md:grid-cols-3 md:grid-rows-3 lg:grid-cols-4 gap-3">
                               <FilesList
                                 filesList={filesList}
                                 setFilesList={setFilesList}
@@ -241,7 +241,7 @@ const Main = () => {
                         className="mt-2 text-center text-sm text-zinc-500 dark:text-zinc-300"
                         id="file_input_help"
                       >
-                        Don't be Dumb and upload other files. Such a moran.
+                        Don't be Dumb and upload other files.
                       </p>
                       <div className="flex flex-col sm:flex-row w-full gap-3">
                         <div className="flex-1">

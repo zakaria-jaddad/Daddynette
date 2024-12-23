@@ -33,14 +33,8 @@ const Header = () => {
         </li>
         <li>
           <Button variant="link" className="px-0">
-            Key
-          </Button>
-        </li>
-        <li className="">
-          <Button variant="link" className="px-0">
             Login
           </Button>
-          {/* <Button>Login</Button> */}
         </li>
       </ul>
     </header>

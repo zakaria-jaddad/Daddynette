@@ -18,7 +18,9 @@ const FilesList: React.FC<FileListProps> = ({ filesList, setFilesList }) => {
             <div className="mb-2">
               <FileIcon />
             </div>
-            <p className="text-wrap">{file.name}</p>
+            <p className="text-arap break-all text-center font-light">
+              {file.name}
+            </p>
             <div
               className="absolute top-0 right-0"
               onClick={() => {
@@ -32,7 +34,7 @@ const FilesList: React.FC<FileListProps> = ({ filesList, setFilesList }) => {
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
-                strokeWidth="2"
+                strokeWidth="1"
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 className="feather feather-trash-2 text-red-500 cursor-pointer -translate-y-1/4 translate-x-1/4"
